@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* FONTS FOR THE WEBSITE */
+@font-face {
+  font-family: "AS";
+  src: url("/fonts/airstrike/airstrike.ttf") format("truetype");
+}
+@font-face {
+  font-family: "AS-Bold";
+  src: url("/fonts/airstrike/airstrikebold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "AS-3D";
+  src: url("/fonts/airstrike/airstrike3d.ttf") format("truetype");
+}
+@font-face {
+  font-family: "AS-3D-Bold";
+  src: url("/fonts/airstrike/airstrikeb3d.ttf") format("truetype");
+}
+@font-face {
+  font-family: "AS-Bullet";
+  src: url("/fonts/airstrike/airstrikebullet.ttf") format("truetype");
+}
+@font-face {
+  font-family: "AS-Outline";
+  src: url("/fonts/airstrike/airstrikeout.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "AS-Platinum";
+  src: url("/fonts/airstrike/airstrikeplat.ttf") format("truetype");
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+}
+body {
+  background: linear-gradient(#1d2c59, #091741);
+
+  color: white;
+}

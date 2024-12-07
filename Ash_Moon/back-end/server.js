@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 const PORT = process.env.PORT;
-import products from "./routes/products.js";
+import products from "./routes/product.js";
 const app = express();
 
 app.use(cors());
