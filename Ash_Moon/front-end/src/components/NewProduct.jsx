@@ -9,7 +9,10 @@ const NewProduct = () => {
     name: "",
     price: "",
     category: "",
-    images: "",
+    images: [
+      "https://harshandcruel.com/cdn/shop/files/7.1_1024x1024@2x.jpg?v=1724943071",
+      "https://harshandcruel.com/cdn/shop/files/7_1024x1024@2x.jpg?v=1724943230",
+    ],
     colors: "",
     sizes: [],
     stock: [],
