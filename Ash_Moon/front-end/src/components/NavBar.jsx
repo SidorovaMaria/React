@@ -26,10 +26,7 @@ const NavBar = () => {
       {/* Navigation */}
       <nav className="lg:flex  lg:w-full">
         {/* Nivbatioan button for Smaller Screens */}
-        <button
-          // onClick={() => setOpenNavigation(!openNavigation)}
-          className="lg:hidden "
-        >
+        <button className="lg:hidden ">
           <Fade
             toggled={openNavigation}
             toggle={setOpenNavigation}

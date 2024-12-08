@@ -16,10 +16,12 @@ export const navigationItems = [
   },
   // { id: "about-us", title: "About Us", link: "/about" },
 ];
+export const categories = [
+  { id: "Hoodie", name: "Hoodie", link: "/hoodie" },
+  { id: "Jacket", name: "Jacket", link: "/jacket" },
+  { id: "T-Shirt", name: "T-Shirt", link: "/t-Shirt" },
+  { id: "Cargo", name: "Cargo", link: "/cargo" },
+  { id: "Denim", name: "Denim", link: "/denim" },
+];
 
 export const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
-
-// Funcitons
-export const capitalizeFirstLetter = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-};
