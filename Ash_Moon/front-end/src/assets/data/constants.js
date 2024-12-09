@@ -5,6 +5,11 @@ export const navigationItems = [
     link: "/",
   },
   {
+    id: "all",
+    title: "All",
+    link: "/all",
+  },
+  {
     id: "new",
     title: "New",
     link: "/new",

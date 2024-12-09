@@ -10,8 +10,7 @@ const NewProduct = () => {
     price: "",
     category: "",
     images: [
-      "https://harshandcruel.com/cdn/shop/files/7.1_1024x1024@2x.jpg?v=1724943071",
-      "https://harshandcruel.com/cdn/shop/files/7_1024x1024@2x.jpg?v=1724943230",
+      "https://harshandcruel.com/cdn/shop/files/download_d3065a7a-017c-44dc-b161-fea93185ad3e_1024x1024@2x.jpg?v=1730988332",
     ],
     colors: "",
     sizes: [],
@@ -162,6 +161,7 @@ const NewProduct = () => {
                 onChange={(e) => updateForm({ category: e.target.value })}
               >
                 <option value={""}>Choose Category</option>
+
                 {categories.map((category) => (
                   <option key={category.id} value={category.name}>
                     {category.name}

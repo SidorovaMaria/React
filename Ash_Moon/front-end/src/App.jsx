@@ -13,6 +13,8 @@ function App() {
         <Routes>
           <Route path="/" default element={<HomePage />} />
           <Route path="/products:product" element={<ProductPage />} />
+          <Route path="/all" element={<ProductsGallery category={"all"} />} />
+
           <Route path="/new" element={<ProductsGallery category={"new"} />} />
           <Route path="/sale" element={<ProductsGallery category={"sale"} />} />
           <Route path="/login" element={<LoginPage />} />
