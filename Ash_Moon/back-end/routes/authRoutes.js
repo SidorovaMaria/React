@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { getUserByEmail, createUser } from "../models/userModel.js";
+import { getUserByEmail, createUser, updateUser } from "../models/userModel.js";
 import { formatDate } from "../../front-end/src/utils/helperFunctions.js";
 import admin from "../firebase.js";
 const router = express.Router();
@@ -67,31 +67,36 @@ router.post("/login", async (req, res) => {
 // PATCH route for updating user details
 router.patch("/updateProfile", async (req, res) => {
   try {
-    const { token, username, email, profileImg } = req.body;
+    const { username, email, DOB, profileImg } = req.body;
 
     // Verify the Firebase ID token
-    const decodedToken = await admin.auth().verifyIdToken(token);
-    if (!decodedToken) {
-      return res.status(400).send("Invalid token");
-    }
+    // const decodedToken = await admin.auth().verifyIdToken(token);
+    // if (!decodedToken) {
+    //   return res.status(400).send("Invalid token");
+    // }
 
-    const userEmail = decodedToken.email;
+    const userEmail = email;
     // Find the user by email
     const user = await getUserByEmail(userEmail);
     if (!user) {
       return res.status(404).send("User not found");
     }
 
-    // Prepare updated fields
+    // Prepare update fields
     const updateFields = {};
     if (username) updateFields.username = username;
-    if (email) updateFields.email = email;
+    if (DOB) updateFields.DOB = DOB;
     if (profileImg) updateFields.profileImg = profileImg;
 
     // Update the user in the database
     const updatedUser = await updateUser(user._id, updateFields);
 
-    res.status(200).json({ success: true, updatedUser });
+    // Check if any user was updated
+    if (updatedUser) {
+      return res.status(200).json({ success: true, updatedUser });
+    } else {
+      return res.status(400).send("Failed to update profile");
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send("Error updating profile");

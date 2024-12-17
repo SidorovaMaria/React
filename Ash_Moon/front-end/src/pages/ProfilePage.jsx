@@ -5,17 +5,19 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../components/user/firebase";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../redux/auth/authSlice";
+import { logoutUser, setUser } from "../redux/auth/authSlice";
 import BackSection from "../components/design/BackSection";
 import EditProfileField from "../components/user/EditProfileField";
 const ProfilePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+
   const [editableUser, setEditableUser] = useState({
     username: user?.username || "",
     email: user?.email || "",
     DOB: user?.DOB || "",
+    profileImg: user.profileImg || "",
   });
 
   // Handle input changes
@@ -37,6 +39,32 @@ const ProfilePage = () => {
       console.error("Error logging out:", error);
     }
   };
+  const handleSave = async (field) => {
+    const updatedData = { [field]: editableUser[field] };
+
+    try {
+      const response = await fetch("http://localhost:5050/auth/updateProfile", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user.email, // Assuming user object has email property
+          ...updatedData,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Profile updated successfully:", data);
+        dispatch(setUser(updatedData)); // Update user in Redux state
+      } else {
+        console.error("Failed to update profile:", await response.text());
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -47,6 +75,7 @@ const ProfilePage = () => {
         profileImg: imageUrl,
       }));
     }
+    handleSave("profileImg");
   };
 
   return (
@@ -90,18 +119,24 @@ const ProfilePage = () => {
               value={editableUser.username}
               onChange={handleChange}
               label="Username"
+              editable={true}
+              handleSave={handleSave}
             />
             <EditProfileField
               fieldName="email"
               value={editableUser.email}
               onChange={handleChange}
               label="Email"
+              editable={false}
+              handleSave={handleSave}
             />
             <EditProfileField
               fieldName="DOB"
               value={editableUser.DOB}
               onChange={handleChange}
               label="Date of Birth"
+              editable={true}
+              handleSave={handleSave}
             />
           </div>
         </div>

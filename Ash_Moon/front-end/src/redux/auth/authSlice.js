@@ -11,9 +11,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      const user = action.payload;
+      const updatedUser = action.payload;
       state.user = {
-        ...user,
+        ...state.user, // Spread the current user state
+        ...updatedUser, // Spread the updated data to overwrite the modified field(s)
       };
     },
     setLoading: (state) => {
