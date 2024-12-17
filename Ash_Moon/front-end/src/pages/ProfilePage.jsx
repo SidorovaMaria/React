@@ -7,6 +7,7 @@ import { auth } from "../components/user/firebase";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../redux/auth/authSlice";
 import BackSection from "../components/design/BackSection";
+import EditProfileField from "../components/user/EditProfileField";
 const ProfilePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -15,13 +16,16 @@ const ProfilePage = () => {
     username: user?.username || "",
     email: user?.email || "",
     DOB: user?.DOB || "",
-    profileImg: user?.profileImg || "",
   });
-  const [isEditable, setIsEditable] = useState({
-    username: false,
-    email: false,
-    DOB: false,
-  });
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setEditableUser((prev) => ({
+      ...prev,
+      [id]: value, // Update the field that changed
+    }));
+  };
 
   const handleLogout = async () => {
     try {
@@ -32,20 +36,6 @@ const ProfilePage = () => {
     } catch (error) {
       console.error("Error logging out:", error);
     }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditableUser((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-  const toggleEdit = (field) => {
-    setIsEditable((prev) => ({
-      ...prev,
-      [field]: !prev[field], // Toggle the editable state for the given field
-    }));
   };
 
   const handleImageChange = (e) => {
@@ -59,7 +49,6 @@ const ProfilePage = () => {
     }
   };
 
-  console.log(typeof user.CreatedAt);
   return (
     <BackSection>
       <div className="flex flex-col justify-center items-center m-16">
@@ -94,67 +83,26 @@ const ProfilePage = () => {
         </header>
         <div className="w-full max-w-md">
           {/* Profile Details */}
+
           <div className="flex flex-col gap-4 p-4 rounded-lg shadow-md">
-            {/* UserNmae */}
-            <div className="flex flex-col">
-              <label htmlFor="username" className="font-AS text-lg mb-1">
-                Username
-              </label>
-              <div className="flex max-w-xl">
-                <input
-                  id="username"
-                  type="text"
-                  value={editableUser.username}
-                  onChange={handleChange}
-                  readOnly={!isEditable.username}
-                  className={` flex-1 p-2 rounded-l-xl border text-main outline-accent font-medium font-mitr ${
-                    isEditable.username
-                      ? "bg-accent text-white text-center"
-                      : ""
-                  }`}
-                />
-                <FontAwesomeIcon
-                  icon={faEdit}
-                  className="text-2xl rounded-r-xl bg-main p-2 px-3 border-2 border-white hover:bg-accent cursor-pointer"
-                  onClick={() => toggleEdit("username")} // Toggle username edit
-                />
-              </div>
-            </div>
-            {/* Email */}
-            <div className="flex flex-col">
-              <label htmlFor="email" className="font-AS text-lg mb-1">
-                Email
-              </label>
-              <div className="flex max-w-xl">
-                <input
-                  id="email"
-                  value={user?.email || ""}
-                  readOnly
-                  className="flex-1 p-2 rounded-l-xl border text-main outline-accent font-medium font-mitr"
-                />
-                <FontAwesomeIcon
-                  icon={faEdit}
-                  className="text-2xl rounded-r-xl bg-main p-2 px-3 border-2 border-white hover:bg-accent"
-                />
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="DOB" className="font-AS text-lg mb-1">
-                Date of Birth
-              </label>
-              <div className="flex max-w-xl">
-                <input
-                  id="DOB"
-                  value={user?.DOB || ""}
-                  readOnly
-                  className="flex-1 p-2 rounded-l-xl border text-main outline-accent font-medium font-mitr"
-                />
-                <FontAwesomeIcon
-                  icon={faEdit}
-                  className="text-2xl rounded-r-xl bg-main p-2 px-3 border-2 border-white hover:bg-accent"
-                />
-              </div>
-            </div>
+            <EditProfileField
+              fieldName="username"
+              value={editableUser.username}
+              onChange={handleChange}
+              label="Username"
+            />
+            <EditProfileField
+              fieldName="email"
+              value={editableUser.email}
+              onChange={handleChange}
+              label="Email"
+            />
+            <EditProfileField
+              fieldName="DOB"
+              value={editableUser.DOB}
+              onChange={handleChange}
+              label="Date of Birth"
+            />
           </div>
         </div>
         <button
