@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,9 +9,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { navigationItems } from "../assets/data/constants";
 import { Fade } from "hamburger-react";
+import { useSelector } from "react-redux";
+
 const NavBar = () => {
   const location = useLocation();
+
   const [openNavigation, setOpenNavigation] = useState(false);
+  const user = useSelector((state) => state.auth.user);
 
   return (
     <div className="flex gap-10 justify-between px-5 items-center pt-3 md:pb-2 bg-gradient-to-b from-main to-95% to-secondary text-[#fff] w-full">
@@ -59,31 +63,40 @@ const NavBar = () => {
             ))}
           </div>
           <div className="py-2 flex items-center  justify-center gap-4 text-2xl md:gap-6 md:pl-auto px-5 flex-col md:flex-row ">
-            <div className="flex gap-10 items-center">
+            <div className="flex gap-5 items-center">
               <Link to="/cart" onClick={() => setOpenNavigation(false)}>
                 <FontAwesomeIcon icon={faCartShopping} />
               </Link>
-              <Link to="/profile" onClick={() => setOpenNavigation(false)}>
-                <FontAwesomeIcon icon={faUser} />
-              </Link>
-              <Link
-                to="addNew"
-                className={`my-2 font-AS text-6xl tracking-widest ${
-                  location.pathname === "/addNew"
-                    ? "font-AS"
-                    : "font-AS-Outline hover:font-AS-Bullet"
-                } `}
-              >
-                +
-              </Link>
+              {user && user.role === "admin" ? (
+                <Link
+                  to="addNew"
+                  className={`my-2 font-AS text-6xl tracking-widest ${
+                    location.pathname === "/addNew"
+                      ? "font-AS"
+                      : "font-AS-Outline hover:font-AS-Bullet"
+                  }`}
+                >
+                  +
+                </Link>
+              ) : null}
             </div>
-            <Link
-              to="/login"
-              onClick={() => setOpenNavigation(false)}
-              className="whitespace-nowrap text-2xl pl-3 pr-4 py-1 font-AS-3D border-2 rounded-lg hover:bg-white hover:font-AS-3D-Bold hover:text-main"
-            >
-              Log In
-            </Link>
+            {user ? (
+              // If the user is logged in, show Profile Button
+              <>
+                <Link to="/profile" onClick={() => setOpenNavigation(false)}>
+                  <FontAwesomeIcon icon={faUser} />
+                </Link>
+              </>
+            ) : (
+              // If the user is not logged in, show Login Button
+              <Link
+                to="/login"
+                onClick={() => setOpenNavigation(false)}
+                className="whitespace-nowrap text-2xl pl-3 pr-4 py-1 font-AS-3D border-2 rounded-lg hover:bg-white hover:font-AS-3D-Bold hover:text-main"
+              >
+                Log In
+              </Link>
+            )}
           </div>
         </ul>
       </nav>

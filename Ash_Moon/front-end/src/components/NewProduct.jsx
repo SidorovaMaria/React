@@ -9,9 +9,7 @@ const NewProduct = () => {
     name: "",
     price: "",
     category: "",
-    images: [
-      "https://harshandcruel.com/cdn/shop/files/download_d3065a7a-017c-44dc-b161-fea93185ad3e_1024x1024@2x.jpg?v=1730988332",
-    ],
+    images: [],
     colors: "",
     sizes: [],
     stock: [],
@@ -20,6 +18,8 @@ const NewProduct = () => {
     createdAt: formatDate(new Date()),
   });
   const [addColor, setAddColor] = useState("");
+  const [addImage, setAddImage] = useState("");
+
   const [stock, setStock] = useState({
     color: "",
     amount: 0,
@@ -293,7 +293,68 @@ const NewProduct = () => {
                   : null}
               </div>
             </div>
+            {/* Colors */}
+            <div className="flex flex-col gap-2 ">
+              <div className="flex justify-between items-center flex-col md:flex-row  ">
+                <label
+                  htmlFor="images"
+                  className="font-AS text-lg text-start bg-red pr-5 mb-2 md:mb-0"
+                >
+                  Images
+                </label>
+                <input
+                  type="text"
+                  id="images"
+                  name="images"
+                  value={addImage}
+                  className="text-main text-center font-mitr font-medium  outline-none md:rounded-r-none rounded-xl py-2 capitalize"
+                  onChange={(e) => setAddImage(e.target.value)}
+                />
+                <button
+                  className={`${
+                    addImage ? "bg-accent" : "bg-secondary"
+                  } whitespace-nowrap text-xl pl-3 pr-4 p-[0.25rem] font-AS-3D-Bold border-2 md:rounded-l-none rounded-lg my-2 md:my-0 `}
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent the default form submission
+                    if (addImage.trim() !== "") {
+                      updateForm({
+                        images: [...form.images, addImage],
+                      });
+                      setAddImage(""); // Clear the input field
+                    }
+                  }}
+                >
+                  Add Image
+                </button>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-auto ">
+                {console.log(form.images)}
+                {form.images
+                  ? form.images.map((img, index) => (
+                      <div key={index} className="relative ">
+                        <img
+                          src={img}
+                          alt={"img"}
+                          className="w-28 rounded-3xl rounded-tr-sm "
+                        />
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            updateForm({
+                              images: form.images.filter((im) => im !== img),
+                            });
+                          }}
+                          className="font-bold absolute -top-2 right-1 text-accent text-3xl "
+                        >
+                          x
+                        </button>
+                      </div>
+                    ))
+                  : null}
+              </div>
+            </div>
           </div>
+          {/* Images */}
         </div>
         {/* Stock */}
         <hr className="h-1 bg-tertiary mt-5" />
