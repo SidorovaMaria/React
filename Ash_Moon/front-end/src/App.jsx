@@ -12,8 +12,21 @@ import AuthPage from "./pages/AuthPage";
 import { auth } from "./components/user/firebase";
 import { logoutUser, setLoading, setUser } from "./redux/auth/authSlice";
 import ProfilePage from "./pages/ProfilePage";
+import { ToastContainer } from "react-toastify";
+import CartPage from "./pages/CartPage";
 
 function App() {
+  const PrivateRoute = ({ children }) => {
+    const user = useSelector((state) => state.auth.user); // Get the user from Redux store
+
+    // If the user is not logged in, redirect to login page
+    if (!user) {
+      return <Navigate to="/" />;
+    }
+
+    return children; // If the user is logged in, allow access to the protected route
+  };
+
   auth.signOut();
   return (
     <BrowserRouter>
@@ -25,9 +38,34 @@ function App() {
         <Route path="/new" element={<ProductsGallery category={"new"} />} />
         <Route path="/sale" element={<ProductsGallery category={"sale"} />} />
         <Route path="/login" element={<AuthPage />} />
-        <Route path="/addNew" element={<NewProduct />} />
-        <Route path="/profile" element={<ProfilePage />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <ProfilePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/addNew"
+          element={
+            <PrivateRoute>
+              <NewProduct />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <PrivateRoute>
+              <CartPage />
+            </PrivateRoute>
+          }
+        />
       </Routes>
+      <ToastContainer toastClassName="bg-main text-white font-mitr whitespace-nowrap px-3" />
     </BrowserRouter>
   );
 }

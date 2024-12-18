@@ -28,9 +28,13 @@ const EditProfileField = ({
           readOnly={!isEditable} // Toggle between read-only and editable
           className={`flex-1 p-2  border text-main outline-accent font-medium font-mitr ${
             isEditable
-              ? "bg-accent text-white text-center cursor-text"
+              ? "bg-accent text-white text-center cursor-text "
               : "cursor-pointer"
-          } ${editable ? "rounded-l-xl" : "rounded-xl"}`}
+          } ${
+            editable
+              ? "rounded-l-xl"
+              : "rounded-xl outline-0 bg-transparent text-white"
+          }`}
         />
         {/* Check if editable prop is true */}
         {editable &&

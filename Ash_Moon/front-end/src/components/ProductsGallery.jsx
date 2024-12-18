@@ -122,7 +122,7 @@ const ProductsGallery = ({ category }) => {
           {filteredProducts.map((product) => (
             <div
               key={product._id}
-              className=" overflow-hidden hover:shadow-[4px_4px_0_white] border-2 border-transparent hover:border-accent rounded-xl transition-all"
+              className=" overflow-hidden hover:shadow-[4px_4px_0_white] border-2 border-transparent hover:border-white rounded-xl transition-all"
             >
               {/* Product Image */}
               <div className="">

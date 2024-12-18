@@ -1,7 +1,7 @@
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../components/user/firebase";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,6 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-
   const [editableUser, setEditableUser] = useState({
     username: user?.username || "",
     email: user?.email || "",
@@ -53,11 +52,24 @@ const ProfilePage = () => {
           ...updatedData,
         }),
       });
+      console.log(response.json);
 
       if (response.ok) {
         const data = await response.json();
         console.log("Profile updated successfully:", data);
         dispatch(setUser(updatedData)); // Update user in Redux state
+        // Show that the value has been updated:
+        toast.success(" Information has been updated", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       } else {
         console.error("Failed to update profile:", await response.text());
       }
@@ -75,7 +87,6 @@ const ProfilePage = () => {
         profileImg: imageUrl,
       }));
     }
-    handleSave("profileImg");
   };
 
   return (
@@ -87,7 +98,7 @@ const ProfilePage = () => {
           </h2>
           <div className="relative w-32 h-32">
             <img
-              src={editableUser.profileImg || "https://via.placeholder.com/128"}
+              src={editableUser.profileImg || user.profileImg}
               alt="Profile"
               className="w-32 h-32 rounded-full object-cover border"
             />
@@ -106,6 +117,14 @@ const ProfilePage = () => {
               className="hidden"
             />
           </div>
+          {user.profileImg === editableUser.profileImg ? null : (
+            <button
+              onClick={() => handleSave("profileImg")}
+              className="whitespace-nowrap text-sm font-mitr capitalise border-2 rounded-lg px-3 py-1 -mt-4 hover:bg-white  hover:text-main"
+            >
+              Save Profile Image
+            </button>
+          )}
           <h4 className="font-mitr font-semibold tracking-widest text-white/50 capitalize">
             Joined on {user.CreatedAt}
           </h4>
@@ -144,7 +163,6 @@ const ProfilePage = () => {
           title="Log Out"
           onClick={() => {
             handleLogout();
-            setOpenNavigation(false);
           }}
           className="whitespace-nowrap text-2xl pl-3 pr-4 py-1 font-AS-3D border-2 rounded-lg my-12 hover:bg-white hover:font-AS-3D-Bold hover:text-main"
         >

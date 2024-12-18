@@ -8,6 +8,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/auth/authSlice";
 import { formatDate } from "../utils/helperFunctions";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -93,7 +94,17 @@ const AuthPage = () => {
             "https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-859.jpg?t=st=1734461978~exp=1734465578~hmac=200d19bcccd7b0ca87660f7d155becb92fe029b70ba34770ffb7f3df0a5c89e8&w=1380",
         })
       );
-      alert("Registration successful! You can now log in.");
+      toast.success("You have succesfully Regsitered!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
       navigate("/");
     } catch (error) {
       setError(error.message);
@@ -133,7 +144,17 @@ const AuthPage = () => {
           ...data.user,
         })
       );
-      alert("Login successful!");
+      toast.success("You have succesfully Logged In", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
       navigate("/");
     } catch (error) {
       setError(error.message);

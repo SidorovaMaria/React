@@ -43,3 +43,12 @@ body {
 
   color: white;
 }
+
+/* Toastify */
+.Toastify__close-button {
+  color: white !important; /* Change the close button (cross) color to black */
+  opacity: 1; /* Ensure it's fully visible */
+}
+.Toastify__toast--success .Toastify__toast-icon {
+  color: black !important; /* Make the success icon red */
+}

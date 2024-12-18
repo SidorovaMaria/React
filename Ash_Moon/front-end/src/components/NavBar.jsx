@@ -18,17 +18,17 @@ const NavBar = () => {
   const user = useSelector((state) => state.auth.user);
 
   return (
-    <div className="flex gap-10 justify-between px-5 items-center pt-3 md:pb-2 bg-gradient-to-b from-main to-95% to-secondary text-[#fff] w-full">
+    <div className="flex gap-10 justify-between px-5 items-center pt-3 md:pb-2 bg-gradient-to-b z-50 from-main to-95% to-secondary text-[#fff] w-full shadow-[2px_0px_30px_white] rounded-b-md ">
       {/* Logo Box */}
       <div className="md:w-fit px-5">
         <Link to="/">
-          <h1 className="font-AS-3D-Bold text-3xl whitespace-nowrap hover:scale-105">
+          <h1 className="font-AS-3D-Bold text-3xl whitespace-nowrap hover:scale-105 ">
             Ash <span className="text-2xl">& </span>Moon
           </h1>
         </Link>
       </div>
       {/* Navigation */}
-      <nav className="lg:flex  lg:w-full">
+      <nav className="lg:flex lg:w-full">
         {/* Nivbatioan button for Smaller Screens */}
         <button className="lg:hidden ">
           <Fade
@@ -40,7 +40,7 @@ const NavBar = () => {
         </button>
         <ul
           className={`bg-gradient-to-b from-secondary to-main absolute w-full rounded-b-[30px] shadow-bg-light/80 shadow-lg left-0 text-center py-2 lg:static  lg:bg-none lg:flex  lg:items-center lg:justify-arounds lg:shadow-none  ${
-            openNavigation ? "" : "hidden"
+            openNavigation ? "z-50" : "hidden"
           }`}
         >
           <div className="md:flex md:w-full md:justify-center md:gap-10 ">
@@ -53,7 +53,7 @@ const NavBar = () => {
                 <li
                   className={`my-2 font-AS text-2xl tracking-widest  ${
                     location.pathname === item.link
-                      ? "font-AS"
+                      ? "font-AS text-accent"
                       : "font-AS-Outline hover:font-AS-Bullet"
                   } `}
                 >
@@ -65,7 +65,12 @@ const NavBar = () => {
           <div className="py-2 flex items-center  justify-center gap-4 text-2xl md:gap-6 md:pl-auto px-5 flex-col md:flex-row ">
             <div className="flex gap-5 items-center">
               <Link to="/cart" onClick={() => setOpenNavigation(false)}>
-                <FontAwesomeIcon icon={faCartShopping} />
+                <FontAwesomeIcon
+                  icon={faCartShopping}
+                  className={` ${
+                    location.pathname === "/cart" ? "text-accent" : ""
+                  }`}
+                />
               </Link>
               {user && user.role === "admin" ? (
                 <Link
@@ -84,7 +89,12 @@ const NavBar = () => {
               // If the user is logged in, show Profile Button
               <>
                 <Link to="/profile" onClick={() => setOpenNavigation(false)}>
-                  <FontAwesomeIcon icon={faUser} />
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    className={` ${
+                      location.pathname === "/profile" ? "text-accent" : ""
+                    }`}
+                  />
                 </Link>
               </>
             ) : (
