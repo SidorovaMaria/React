@@ -1,7 +1,19 @@
+import PokemonsGallery from "./gallery/PokemonsGallery";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Pokemon from "./Pokemon/Pokemon";
+
 function App() {
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello PokeWorld!</h1>
+      <Router>
+        <Routes>
+          {/* Route for Pokémon Gallery */}
+          <Route path="/" element={<PokemonsGallery />} />
+
+          {/* Route for individual Pokémon details */}
+          <Route path="/pokemon/:id" element={<Pokemon />} />
+        </Routes>
+      </Router>
     </>
   );
 }
