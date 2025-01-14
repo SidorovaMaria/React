@@ -19,8 +19,9 @@ const userSchema = new mongoose.Schema(
 		},
 		phone: {
 			type: String,
+			unique: true,
 			required: [true, "Phone number is required"],
-			match: [/^\+?[1-9]\d{1,14}$/, "Please fill a valid phone number"], // E.164 format validation
+			match: [/^\+?[1-9]\d{1,14}$/, "Please fill a valid phone number"],
 		},
 		password: {
 			type: String,
@@ -34,6 +35,19 @@ const userSchema = new mongoose.Schema(
 		profileImg: {
 			type: String,
 			default: "../assets/profile-boy-icon.png",
+		},
+		dob: {
+			type: Date,
+			required: [true, "Date of Birth is required"],
+			validate: {
+				validator: function (value) {
+					const currentDate = new Date();
+					// Ensure the user is at least 18 years old
+					const age = currentDate.getFullYear() - value.getFullYear();
+					return age >= 16;
+				},
+				message: "You must be at least 16 years old",
+			},
 		},
 		cartItems: [
 			{
@@ -75,7 +89,7 @@ const userSchema = new mongoose.Schema(
 	}
 );
 // Hash Password before saving to the databse!
-userSchema.pre("save", async (next) => {
+userSchema.pre("save", async function (next) {
 	if (!this.isModified("password")) return next();
 
 	try {
