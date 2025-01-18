@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	font-family: "Zen Dots", serif;
+}
+
+.electrolize {
+	font-family: "Electrolize", serif;
+}
+
+.main-link {
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	font-size: 1.25rem;
+	line-height: 1.75rem;
+	color: #ffffff;
+	transition: all 0.5s linear;
+}
+
+.main-link::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 3px;
+	background: white;
+	transition: all 0.3s linear;
+}
+
+.main-link:hover::after {
+	width: 100%;
+}
+
+/* NAVIGATION */
+.main-link:hover {
+	transform: scale(1.2);
+}

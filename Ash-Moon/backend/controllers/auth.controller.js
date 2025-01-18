@@ -53,7 +53,7 @@ export const signup = async (req, res) => {
 	try {
 		const userExists = await User.findOne({ email });
 		if (userExists) {
-			return res.status(400).json({ message: "User already exists" });
+			return res.status(400).json({ error: "User already exists" });
 		}
 		const userData = {
 			name,
@@ -97,7 +97,9 @@ export const login = async (req, res) => {
 		if (phone) query.phone = phone;
 		const user = await User.findOne(query);
 		if (!user) {
-			return res.status(404).json({ error: "User Not Found" });
+			return res
+				.status(404)
+				.json({ error: "Could not find user with given credentials" });
 		}
 		if (await user.comparePassword(password)) {
 			// AUHNETICATION
@@ -130,19 +132,25 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
 	try {
 		const refreshToken = req.cookies.refreshToken;
-
-		if (refreshToken) {
-			const decoded = jwt.verify(
-				refreshToken,
-				process.env.REFRESH_TOKEN_SECRET
-			);
-			await redis.del(`refresh_token:${decoded.userId}`);
-		} else {
+		if (!refreshToken) {
 			return res.status(400).json({ message: "No refresh token found" });
 		}
 
+		const decoded = jwt.verify(
+			refreshToken,
+			process.env.REFRESH_TOKEN_SECRET
+		);
+
+		console.log("Decoded token:", decoded);
+		if (!decoded || !decoded.userId) {
+			return res
+				.status(400)
+				.json({ message: "Invalid token, userId not found" });
+		}
+		await redis.del(`refresh_token:${decoded.userId}`);
 		res.clearCookie("accessToken");
 		res.clearCookie("refreshToken");
+
 		res.json({ message: "Logged out successfully", user: decoded.userId });
 	} catch (error) {
 		console.log("Error in logout controller", error.message);
