@@ -1,0 +1,2 @@
+GET http://localhost:3001/ash-moon/products
+Content-Type: application/json

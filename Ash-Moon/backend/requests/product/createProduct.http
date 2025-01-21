@@ -1,0 +1,10 @@
+POST http://localhost:3001/ash-moon/products
+Content-Type: application/json
+
+{
+    "name":"Woman Hoodie",
+    "description":"A woman hoodie product description",
+    "price":98,
+    "isFeatured":true,
+    "category":["Woman","hoodie"]
+}
