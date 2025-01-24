@@ -29,13 +29,12 @@ export default function MenuButton({ profileImg, name }) {
 	};
 	const handleLogout = () => {
 		console.log("loging Out");
-		console.log("Before logout:", store.getState().auth);
+
 		dispatch(logout());
-		console.log("After logout:", store.getState().auth);
 	};
 
 	return (
-		<React.Fragment>
+		<>
 			<Box
 				sx={{
 					display: "flex",
@@ -43,7 +42,16 @@ export default function MenuButton({ profileImg, name }) {
 					textAlign: "center",
 				}}
 			>
-				<Typography sx={{ minWidth: 50 }}>{name}</Typography>
+				<Typography
+					sx={{
+						minWidth: 50,
+						fontFamily: "Zen Dots",
+						textDecoration: "underline",
+						cursor: "pointer",
+					}}
+				>
+					{name}
+				</Typography>
 				<Tooltip title="Account settings">
 					<IconButton
 						onClick={handleClick}
@@ -78,6 +86,9 @@ export default function MenuButton({ profileImg, name }) {
 							overflow: "visible",
 							filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
 							mt: 1.5,
+							padding: "10px",
+							borderRadius: "10px",
+							backdropFilter: "blur(10px)",
 							backgroundColor: "#00003123",
 							borderWidth: "1px",
 							borderColor: "white",
@@ -108,7 +119,10 @@ export default function MenuButton({ profileImg, name }) {
 				transformOrigin={{ horizontal: "right", vertical: "top" }}
 				anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 			>
-				<MenuItem onClick={handleClose}>
+				<MenuItem
+					onClick={handleClose}
+					sx={{ marginBottom: "2px", fontFamily: "Zen Dots" }}
+				>
 					<Avatar
 						sx={{
 							width: 40,
@@ -120,7 +134,10 @@ export default function MenuButton({ profileImg, name }) {
 					</Avatar>
 					Profile
 				</MenuItem>
-				<MenuItem onClick={handleClose}>
+				<MenuItem
+					onClick={handleClose}
+					sx={{ marginBottom: "2px", fontFamily: "Zen Dots" }}
+				>
 					<Avatar
 						sx={{
 							width: 40,
@@ -135,13 +152,17 @@ export default function MenuButton({ profileImg, name }) {
 					My orders
 				</MenuItem>
 				<Divider sx={{ backgroundColor: "white" }} />
-				<MenuItem onClick={handleClose}>
+				<MenuItem
+					onClick={handleClose}
+					sx={{ marginBottom: "2px", fontFamily: "Zen Dots" }}
+				>
 					<ListItemIcon>
 						<Settings fontSize="small" sx={{ color: "white" }} />
 					</ListItemIcon>
 					Settings
 				</MenuItem>
 				<MenuItem
+					sx={{ fontFamily: "Zen Dots" }}
 					onClick={() => {
 						handleClose();
 						handleLogout();
@@ -153,6 +174,6 @@ export default function MenuButton({ profileImg, name }) {
 					Logout
 				</MenuItem>
 			</Menu>
-		</React.Fragment>
+		</>
 	);
 }

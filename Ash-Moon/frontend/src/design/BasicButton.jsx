@@ -12,12 +12,14 @@ const BasicButton = styled(Button, {
 	letterSpacing: "0.025em",
 	borderRadius: "0.75rem",
 	border: variant.includes("outlined") ? "2px solid white" : "none", // Always provide a border style
-	color: variant === "outlined" ? "white" : theme.palette.background.paper,
-	backgroundColor: variant.includes("filled") ? "#03468f" : "transparent",
+	color: variant.includes("filled")
+		? "#0d0d1d"
+		: theme.palette.background.paper,
+	backgroundColor: variant.includes("filled") ? "white" : "transparent",
 	transition: "all 0.3s ease",
 	boxShadow: variant.includes("shadows") ? "2px 2px 10px white" : "none",
 	"&:hover": {
-		backgroundColor: variant.includes("outlined") ? "#0d2042" : "",
+		// backgroundColor: variant.includes("outlined") ? "#0d2042" : "",
 		boxShadow: variant.includes("outlined") ? "2px 2px 0px white" : "",
 		textDecoration: variant.includes("outlined") ? "" : "underline",
 		transform: variant.includes("outlined") ? "" : "scale(1.15)",

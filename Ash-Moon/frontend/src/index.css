@@ -23,5 +23,23 @@ body {
 	transition: all 0.5s linear;
 }
 .text-shadow {
-	text-shadow: 5px 5px 5px #03468f;
+	text-shadow: 5px 5px 5px #03478f80;
+}
+.component-with-scrollbar::-webkit-scrollbar {
+	height: 1rem;
+}
+
+/* Track */
+.component-with-scrollbar::-webkit-scrollbar-track {
+	/* background: white; */
+	border-radius: 5px;
+}
+
+/* Handle */
+.component-with-scrollbar::-webkit-scrollbar-thumb {
+	background: #0e0d1d;
+	background-image: url("/assets/night.png");
+	border-radius: 20px;
+	height: 0.5rem;
+	box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.426);
 }

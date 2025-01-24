@@ -61,6 +61,15 @@ const authSlice = createSlice({
 			state.isLoading = false;
 			state.error = action.payload;
 		});
+		// Refresh Token
+		builder.addCase(refreshUser.fulfilled, (state, action) => {
+			state.user = action.payload;
+			state.isAuthenticated = true;
+		});
+		builder.addCase(refreshUser.rejected, (state) => {
+			state.user = null;
+			state.isAuthenticated = false;
+		});
 	},
 });
 
@@ -119,6 +128,24 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 		return thunkAPI.rejectWithValue(error.response.data);
 	}
 });
+
+export const refreshUser = createAsyncThunk(
+	"auth/refreshUser",
+	async (_, thunkAPI) => {
+		try {
+			const response = await axios.post(
+				`${API_BASE_URL}/auth/refresh-token`,
+				{},
+				{ withCredentials: true }
+			);
+			return response.data.user;
+		} catch (error) {
+			return thunkAPI.rejectWithValue(
+				error.response?.data || { message: "Session expired" }
+			);
+		}
+	}
+);
 
 export const { resetError } = authSlice.actions;
 export default authSlice.reducer;

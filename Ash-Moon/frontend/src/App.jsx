@@ -4,15 +4,17 @@ import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import { Route, Routes, Navigate } from "react-router-dom";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import ProductsPage from "./pages/ProductsPage";
+import { refreshUser } from "./app/feature/authSlice";
 
 function App() {
-	const user = useSelector((state) => state.auth.user);
+	const dispatch = useDispatch();
+	const { user, isAuthenticated } = useSelector((state) => state.auth);
 	useEffect(() => {
-		if (user) {
-			console.log("User is signed in:", user);
-		}
-	}, [user]);
+		dispatch(refreshUser());
+	}, [dispatch]);
+
 	return (
 		<div className="min-h-screen relative">
 			<div className="relative z-10">
@@ -20,6 +22,11 @@ function App() {
 				<main className="">
 					<Routes>
 						<Route path="/" element={<HomePage />} />
+						<Route path="/products" element={<ProductsPage />} />
+						<Route
+							path="/products/:categories"
+							element={<ProductsPage />}
+						/>
 					</Routes>
 				</main>
 			</div>

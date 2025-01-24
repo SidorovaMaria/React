@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import LogInDialog from "../components/LogInDialog";
-import AuthDialog from "../components/AuthDialog";
+
 import BasicButton from "../design/BasicButton";
+import FeaturedProducts from "../components/products/Featuredproducts";
+import { Link } from "react-router-dom";
+
 const HomePage = () => {
-	const [featuredProducts, setFeaturedProducts] = useState(null);
 	return (
 		<div className="">
 			{/* Main Banner */}
 			<motion.div
-				className="sm:mx-auto sm:w-full flex  flex-col items-center justify-around relative pt-20 lg:pt-[6.5rem]"
+				className="sm:mx-auto sm:w-full flex  flex-col items-center justify-around relative pt-20 lg:pt-[6.5rem] "
 				initial={{ opacity: 0, y: -20 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 1 }}
@@ -27,24 +28,27 @@ const HomePage = () => {
 				</h1>
 				{/* Buttons  */}
 				<div className="flex gap-10 pt-5 pb-10 ">
-					<BasicButton variant="outlined shadows">
-						Shop Now
-					</BasicButton>
+					<Link to="/products">
+						<BasicButton variant="outlined shadows">
+							Shop Now
+						</BasicButton>
+					</Link>
 					<BasicButton variant=" ">Learn More</BasicButton>
 				</div>
 			</motion.div>
 			<motion.div
-				className="sm:mx-auto sm:w-full max-w-7xl my-20  mx-auto relative "
+				className="sm:mx-auto sm:w-full max-w-7xl my-20 px-20 relative "
 				initial={{ opacity: 0, x: -50 }}
 				animate={{ opacity: 1, x: 0 }}
 				transition={{ delay: 1, duration: 1 }}
 			>
-				<h1 className="text-3xl flex items-baseline gap-5 ">
+				<h1 className="text-3xl flex items-baseline gap-5 my-4s">
 					<span className="w-fit whitespace-nowrap uppercase">
 						Best Sellers
 					</span>
 					<span className=" w-full h-1 bg-white"></span>
 				</h1>
+				<FeaturedProducts />
 			</motion.div>
 		</div>
 	);
